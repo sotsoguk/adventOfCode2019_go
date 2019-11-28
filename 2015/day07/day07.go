@@ -83,6 +83,9 @@ func evalWire(wire string) uint16 {
 	// TODO
 	// CHECK FOR NUMERIC ARGUMENTS IN ALLLL commands
 	// 1 AND r
+	if v, err := strconv.ParseInt(wire, 10, 16); err == nil {
+		return uint16(v)
+	}
 	currInstr, ok := circuit[wire]
 	// fmt.Print(wire, "\n")
 	if !ok {
@@ -126,8 +129,8 @@ func evalWire(wire string) uint16 {
 }
 func main() {
 	fmt.Println(os.Getwd())
-	// lines := readAOC.ReadInput("2015/inputs/input07_2015.txt")
-	lines := readAOC.ReadInput("../inputs/input07_2015.txt")
+	lines := readAOC.ReadInput("2015/inputs/input07_2015b.txt")
+	// lines := readAOC.ReadInput("../inputs/input07_2015.txt")
 	// lines := readAOC.ReadInput("2015/day07/test2.txt")
 	var (
 		solution1, solution2 int64
@@ -140,9 +143,9 @@ func main() {
 	// for k, _ := range circuit {
 	// 	fmt.Println(evalWire(k))
 	// }
-	for k, v := range circuit {
-		fmt.Println(k, v)
-	}
+	// for k, v := range circuit {
+	// 	fmt.Println(k, v)
+	// }
 	// fmt.Println(circuit["b"])
 	// fmt.Println(evalWire("lx"))
 	fmt.Println(evalWire("a"))
