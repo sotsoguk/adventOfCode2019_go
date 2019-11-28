@@ -2,7 +2,7 @@ lf AND lq -> ls
 iu RSHIFT 1 -> jn
 bo OR bu -> bv
 gj RSHIFT 1 -> hc
-et RSHIFT 2 -> eu
+et RSHIFTC 2 -> eu
 bv AND bx -> by
 is OR it -> iu
 b OR n -> o
