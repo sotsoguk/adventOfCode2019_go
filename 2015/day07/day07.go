@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 
@@ -79,9 +80,17 @@ func parseLine(l string) {
 
 }
 func evalWire(wire string) uint16 {
-	currInstr := circuit[wire]
-	var v1, v2 uint16
+	// TODO
+	// CHECK FOR NUMERIC ARGUMENTS IN ALLLL commands
+	// 1 AND r
+	currInstr, ok := circuit[wire]
 	// fmt.Print(wire, "\n")
+	if !ok {
+		panic(wire)
+
+	}
+	defer fmt.Println("defer at ", currInstr)
+	var v1, v2 uint16
 	var newValue uint16
 	if currInstr.evaluated {
 		fmt.Println(wire, "ALREDAY IN MEMORY")
@@ -116,8 +125,10 @@ func evalWire(wire string) uint16 {
 	return newValue
 }
 func main() {
-	lines := readAOC.ReadInput("2015/inputs/input07_2015.txt")
-	// lines := readAOC.ReadInput("2015/day07/test.txt")
+	fmt.Println(os.Getwd())
+	// lines := readAOC.ReadInput("2015/inputs/input07_2015.txt")
+	lines := readAOC.ReadInput("../inputs/input07_2015.txt")
+	// lines := readAOC.ReadInput("2015/day07/test2.txt")
 	var (
 		solution1, solution2 int64
 	)
@@ -134,6 +145,6 @@ func main() {
 	}
 	// fmt.Println(circuit["b"])
 	// fmt.Println(evalWire("lx"))
-	fmt.Println(evalWire("c"))
+	fmt.Println(evalWire("a"))
 	fmt.Printf("AoC 2015 - Day 07\n-----------------\nPart1:\t%v\nPart2:\t%v", solution1, solution2)
 }
