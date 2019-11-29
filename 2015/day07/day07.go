@@ -92,11 +92,11 @@ func evalWire(wire string) uint16 {
 		panic(wire)
 
 	}
-	defer fmt.Println("defer at ", currInstr)
+	// defer fmt.Println("defer at ", currInstr)
 	var v1, v2 uint16
 	var newValue uint16
 	if currInstr.evaluated {
-		fmt.Println(wire, "ALREDAY IN MEMORY")
+		// fmt.Println(wire, "ALREDAY IN MEMORY")
 		return currInstr.value
 	} else if currInstr.command == comAND {
 		v1 = evalWire(currInstr.op1)
