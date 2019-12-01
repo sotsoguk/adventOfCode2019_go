@@ -49,4 +49,6 @@ func main() {
 	// solution1 = looknsay(input)
 	solution2 = int64(len(input))
 	fmt.Printf("AoC 2015 - Day 07\n-----------------\nPart1:\t%v\nPart2:\t%v", solution1, solution2)
+
 }
+
