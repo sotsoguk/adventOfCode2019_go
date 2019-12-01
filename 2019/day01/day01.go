@@ -11,7 +11,7 @@ func getFuel(mass int64) int64 {
 	if mass < 8 {
 		return 0
 	}
-	return (mass / int64(3)) - 2
+	return (mass / 3) - 2
 
 }
 func main() {
