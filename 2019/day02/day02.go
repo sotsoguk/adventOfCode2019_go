@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 	"strings"
 
@@ -33,15 +32,22 @@ func runCode(origCode []int, noun int, verb int) []int {
 }
 
 func main() {
-	fmt.Println(os.Getwd())
 	// Debug path
 	// lines := readAOC.ReadInput("../../2019/inputs/input02_2019.txt")
-	lines := readAOC.ReadInput("2019/inputs/input02_2019.txt")
+	// fmt.Println(os.Getwd())
+
+	const (
+		year = 2019
+		day  = 2
+		goal = 19690720
+	)
+
+	filePath := fmt.Sprintf("%d/inputs/input%02d_%d.txt", year, day, year)
+	header := fmt.Sprintf("AoC %d - Day %02d\n-----------------\n", year, day)
+	lines := readAOC.ReadInput(filePath)
+
 	var (
 		solution1, solution2 int64
-	)
-	const (
-		goal = 19690720
 	)
 
 	// prepare input
@@ -51,11 +57,11 @@ func main() {
 		code[i], _ = strconv.Atoi(ll[i])
 	}
 
-	// Part 1
+	// // Part 1
 	codePart1 := runCode(code, 12, 2)
 	solution1 = int64(codePart1[0])
 
-	// Part 2
+	// // Part 2
 	for n := 0; n < 100; n++ {
 		for v := 0; v < 100; v++ {
 			memCpy := runCode(code, n, v)
@@ -66,6 +72,7 @@ func main() {
 			}
 		}
 	}
-	fmt.Printf("AoC 2019 - Day 02\n-----------------\nLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v",
-		len(lines), solution1, solution2)
+
+	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v",
+		header, len(lines), solution1, solution2)
 }
