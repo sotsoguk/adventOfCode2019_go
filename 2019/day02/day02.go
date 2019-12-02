@@ -9,8 +9,10 @@ import (
 	readAOC "github.com/adventOfCode2019_go/utils"
 )
 
-func runCode(code []int, noun int, verb int) []int {
+func runCode(origCode []int, noun int, verb int) []int {
 
+	code := make([]int, len(origCode))
+	copy(code, origCode)
 	code[1] = noun
 	code[2] = verb
 	ptr := 0
@@ -44,25 +46,19 @@ func main() {
 
 	// prepare input
 	ll := strings.Split(lines[0], ",")
-	originalCode := make([]int, len(ll))
+	code := make([]int, len(ll))
 	for i := range ll {
-		originalCode[i], _ = strconv.Atoi(ll[i])
+		code[i], _ = strconv.Atoi(ll[i])
 	}
-	// code := []int{1, 1, 1, 4, 99, 5, 6, 0, 99}
-	// code := []int{1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50}
 
 	// Part 1
-	codePart1 := make([]int, len(originalCode))
-	copy(codePart1, originalCode)
-	codePart1 = runCode(codePart1, 12, 2)
+	codePart1 := runCode(code, 12, 2)
 	solution1 = int64(codePart1[0])
 
 	// Part 2
-	for n := 1; n < 100; n++ {
-		for v := 1; v < 100; v++ {
-			cc := make([]int, len(originalCode))
-			copy(cc, originalCode)
-			memCpy := runCode(cc, n, v)
+	for n := 0; n < 100; n++ {
+		for v := 0; v < 100; v++ {
+			memCpy := runCode(code, n, v)
 			if memCpy[0] == goal {
 				fmt.Println("Part2: Found the solution", n, v)
 				solution2 = int64(100*n + v)
