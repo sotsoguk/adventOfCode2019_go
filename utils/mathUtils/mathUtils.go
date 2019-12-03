@@ -7,6 +7,13 @@ func Min(x, y int64) int64 {
 		return y
 	}
 }
+func Min32(x, y int) int {
+	if x < y {
+		return x
+	} else {
+		return y
+	}
+}
 
 func Max(x, y int64) int64 {
 	if x > y {
@@ -34,4 +41,15 @@ func Maxxyz(args ...int64) (maxValue int64) {
 		}
 	}
 	return
+}
+
+func Swap(x, y int) (int, int) {
+	return y, x
+}
+
+func Abs32(x int) int {
+	if x < 0 {
+		x = -x
+	}
+	return x
 }
