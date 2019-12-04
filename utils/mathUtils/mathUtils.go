@@ -22,7 +22,13 @@ func Max(x, y int64) int64 {
 		return y
 	}
 }
-
+func Max32(x, y int) int {
+	if x > y {
+		return x
+	} else {
+		return y
+	}
+}
 func Minxyz(args ...int64) (minValue int64) {
 	minValue = args[0]
 	for _, v := range args {

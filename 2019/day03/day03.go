@@ -192,6 +192,7 @@ func main() {
 			continue
 		} else {
 			minDist = mathUtils.Min32(minDist, manhattanDistance(ip))
+			fmt.Println(ip)
 		}
 
 	}
