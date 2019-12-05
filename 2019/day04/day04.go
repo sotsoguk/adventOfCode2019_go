@@ -7,6 +7,11 @@ import (
 	//"github.com/adventOfCode2019_go/utils/mathUtils"
 )
 
+type Result struct {
+	part1 int
+	part2 int
+}
+
 func makeDigits(n int64) []int {
 	digits := make([]int, 6)
 	for i := 0; i < 6; i++ {
@@ -62,6 +67,31 @@ func isIncreasing(n int64) (bool, int) {
 	}
 	return increasing, newNum
 }
+func findConcPasswords(lower int, upper int, c chan Result) {
+	var solution1, solution2 int
+	for i := lower; i <= upper; {
+		if inc, newNum := isIncreasing(int64(i)); inc {
+			v1, v2 := validPassword(int64(i))
+			if v1 {
+				solution1++
+			}
+			if v2 {
+				solution2++
+			}
+			i++
+		} else {
+			i = newNum
+
+		}
+	}
+	// c <- solution1
+	res := new(Result)
+	res.part1 = solution1
+	res.part2 = solution2
+	c <- *res
+
+}
+
 func main() {
 	// Debug path
 	// fmt.Println(os.Getwd())
@@ -82,21 +112,46 @@ func main() {
 	header := fmt.Sprintf("AoC %d - Day %02d\n-----------------\n", year, day)
 	//lines := readAOC.ReadInput(filePath)
 	input := []int64{234208, 765869}
-	for i := input[0]; i <= input[1]; {
-		if inc, newNum := isIncreasing(i); inc {
-			v1, v2 := validPassword(i)
-			if v1 {
-				solution1++
-			}
-			if v2 {
-				solution2++
-			}
-			i++
-		} else {
-			i = int64(newNum)
 
+	//create equal parts
+
+	t0 := int(input[0])
+	t1 := int(input[1])
+	parts := 4
+	partlen := int(int(t1-t0) / parts)
+	rs := make([]int, 0)
+	for i := 0; i < parts; i++ {
+		if i < parts-1 {
+			rs = append(rs, t0+i*partlen, t0+(i+1)*partlen-1)
+		} else {
+			rs = append(rs, t0+(parts-1)*partlen, t1)
 		}
 	}
+	fmt.Println(rs)
+	// for i := input[0]; i <= input[1]; {
+	// 	if inc, newNum := isIncreasing(i); inc {
+	// 		v1, v2 := validPassword(i)
+	// 		if v1 {
+	// 			solution1++
+	// 		}
+	// 		if v2 {
+	// 			solution2++
+	// 		}
+	// 		i++
+	// 	} else {
+	// 		i = int64(newNum)
+
+	// 	}
+	// }
+	c := make(chan Result)
+	go findConcPasswords(rs[0], rs[1], c)
+	go findConcPasswords(rs[2], rs[3], c)
+	go findConcPasswords(rs[4], rs[5], c)
+	go findConcPasswords(rs[6], rs[7], c)
+	s1, s2, s3, s4 := <-c, <-c, <-c, <-c
+	solution1 = int64(s1.part1 + s2.part1 + s3.part1 + s4.part1)
+	solution2 = int64(s1.part2 + s2.part2 + s3.part2 + s4.part2)
+
 	elapsed := time.Since(start)
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nRuntime:\t%v",
 		header, 0, solution1, solution2, elapsed)
