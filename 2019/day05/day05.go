@@ -132,6 +132,7 @@ func main() {
 
 	part1 := runCode(code, 1)
 	part2 := runCode(code, 5)
+45655454545
 	for _, i := range part1 {
 		if i != 0 {
 			solution1 = int64(i)
@@ -148,3 +149,4 @@ func main() {
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v",
 		header, len(lines), solution1, solution2)
 }
+^^      sssssssssaassssssssssssssss 
