@@ -8,6 +8,26 @@ import (
 	//"github.com/adventOfCode2019_go/utils/mathUtils"
 )
 
+const (
+	pixelBlack = iota
+	pixelWhite
+	pixelTransparent
+)
+
+func printSIF(image []int, width int, height int) {
+	fmt.Println()
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			pixel := image[y*width+x]
+			if pixel == pixelWhite {
+				fmt.Print("* ")
+			} else {
+				fmt.Print("  ")
+			}
+		}
+		fmt.Println()
+	}
+}
 func main() {
 	// Debug path
 	// fmt.Println(os.Getwd())
@@ -55,7 +75,7 @@ func main() {
 	for i := 0; i < layers; i++ {
 		l := imageData[i*150 : (i+1)*150]
 		for k := range l {
-			if image[k] == 2 {
+			if image[k] == pixelTransparent {
 				image[k] = l[k]
 			}
 		}
@@ -65,16 +85,6 @@ func main() {
 	elapsed := time.Since(start)
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nRuntime:\t%v\n",
 		header, len(lines[0]), solution1, solution2, elapsed)
-	fmt.Println()
-	for y := 0; y < h; y++ {
-		for x := 0; x < w; x++ {
-			pixel := image[y*w+x]
-			if pixel == 1 {
-				fmt.Print("* ")
-			} else {
-				fmt.Print("  ")
-			}
-		}
-		fmt.Println()
-	}
+
+	printSIF(image, w, h)
 }
