@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-
+ 
 	readAOC "github.com/adventOfCode2019_go/utils"
 	"github.com/adventOfCode2019_go/utils/mathUtils"
 )

@@ -23,10 +23,14 @@ func printSIF(image []int, width int, height int) {
 	for y := 0; y < height; y++ {
 		for x := 0; x < width; x++ {
 			pixel := image[y*width+x]
+			if x%5 == 0 {
+				fmt.Print(" ")
+			}
 			if pixel == pixelWhite {
-				fmt.Print("* ")
+				// fmt.Print("* ")
+				fmt.Print("\u2588")
 			} else {
-				fmt.Print("  ")
+				fmt.Print(" ")
 			}
 		}
 		fmt.Println()
@@ -74,7 +78,7 @@ func main() {
 	)
 	// IO
 	filePath := fmt.Sprintf("%d/inputs/input%02d_%d.txt", year, day, year)
-	imagePath := fmt.Sprintf("%d/day%02d/day%02d.png", year, day, day)
+	// imagePath := fmt.Sprintf("%d/day%02d/day%02d.png", year, day, day)
 	header := fmt.Sprintf("AoC %d - Day %02d\n-----------------\n", year, day)
 	lines := readAOC.ReadInput(filePath)
 
@@ -116,5 +120,5 @@ func main() {
 		header, len(lines[0]), solution1, solution2, elapsed)
 
 	printSIF(image, w, h)
-	renderImage(imagePath, image, w, h, 20)
+	// renderImage(imagePath, image, w, h, 20)
 }
