@@ -2,6 +2,10 @@ package main
 
 import (
 	"fmt"
+	"image"
+	"image/color"
+	"image/png"
+	"os"
 	"time"
 
 	readAOC "github.com/adventOfCode2019_go/utils"
@@ -28,6 +32,30 @@ func printSIF(image []int, width int, height int) {
 		fmt.Println()
 	}
 }
+
+func renderImage(filename string, imgData []int, width int, height int, pixelSize int) {
+	rect := image.Rect(0, 0, width*pixelSize, height*pixelSize)
+	img := image.NewRGBA(rect)
+	// blue := color.RGBA{0, 0, 255, 255}
+	green := color.RGBA{14, 184, 14, 0xff}
+	for r := 0; r < height; r++ {
+		for c := 0; c < width; c++ {
+			for y := r * pixelSize; y < (r+1)*pixelSize; y++ {
+				for x := c * pixelSize; x < (c+1)*pixelSize; x++ {
+					pixel := imgData[r*width+c]
+					switch pixel {
+					case pixelBlack:
+						img.Set(x, y, color.Black)
+					case pixelWhite:
+						img.Set(x, y, green)
+					}
+				}
+			}
+		}
+	}
+	f, _ := os.Create(filename)
+	png.Encode(f, img)
+}
 func main() {
 	// Debug path
 	// fmt.Println(os.Getwd())
@@ -46,6 +74,7 @@ func main() {
 	)
 	// IO
 	filePath := fmt.Sprintf("%d/inputs/input%02d_%d.txt", year, day, year)
+	imagePath := fmt.Sprintf("%d/day%02d/day%02d.png", year, day, day)
 	header := fmt.Sprintf("AoC %d - Day %02d\n-----------------\n", year, day)
 	lines := readAOC.ReadInput(filePath)
 
@@ -59,7 +88,7 @@ func main() {
 	product := 0
 	image := make([]int, w*h)
 	for i := range image {
-		image[i] = 2
+		image[i] = pixelTransparent
 	}
 	for i := 0; i < layers; i++ {
 		l := imageData[i*150 : (i+1)*150]
@@ -87,4 +116,5 @@ func main() {
 		header, len(lines[0]), solution1, solution2, elapsed)
 
 	printSIF(image, w, h)
+	renderImage(imagePath, image, w, h, 20)
 }
