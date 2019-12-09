@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 
 	readAOC "github.com/adventOfCode2019_go/utils"
 	"github.com/adventOfCode2019_go/utils/mathUtils"
@@ -155,6 +156,7 @@ func main() {
 	// Debug path
 	// lines := readAOC.ReadInput("../../2019/inputs/input09_2019.txt")
 	// fmt.Println(os.Getwd())
+	start := time.Now()
 
 	const (
 		year = 2019
@@ -177,6 +179,7 @@ func main() {
 
 	solution1 = runCode(code, []int64{1})[0]
 	solution2 = runCode(code, []int64{2})[0]
-	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v",
-		header, len(lines), solution1, solution2)
+	elapsed := time.Since(start)
+	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nTime:\t%v",
+		header, len(lines), solution1, solution2, elapsed)
 }
