@@ -139,7 +139,8 @@ func runCode(origCode []int64, input []int64) []int64 {
 		case 99:
 			running = false
 		default:
-			fmt.Println("ERRROR:", opcode)
+			fmt.Println("Unknown Opcode:", opcode)
+			running = false
 			break
 		}
 
