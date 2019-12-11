@@ -67,3 +67,40 @@ func Gcd(x, y int) int {
 	}
 	return x
 }
+
+func MakeDigits(n int64) []int64 {
+	digits := make([]int64, 5)
+	for i := 0; i < 5; i++ {
+		digits[4-i] = int64(n % 10)
+		// digits = append(digits, int(n%10))
+		n /= 10
+	}
+	return digits
+}
+func Permutations(arr []int) [][]int {
+	var helper func([]int, int)
+	res := [][]int{}
+
+	helper = func(arr []int, n int) {
+		if n == 1 {
+			tmp := make([]int, len(arr))
+			copy(tmp, arr)
+			res = append(res, tmp)
+		} else {
+			for i := 0; i < n; i++ {
+				helper(arr, n-1)
+				if n%2 == 1 {
+					tmp := arr[i]
+					arr[i] = arr[n-1]
+					arr[n-1] = tmp
+				} else {
+					tmp := arr[0]
+					arr[0] = arr[n-1]
+					arr[n-1] = tmp
+				}
+			}
+		}
+	}
+	helper(arr, len(arr))
+	return res
+}
