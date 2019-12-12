@@ -59,13 +59,31 @@ func Abs32(x int) int {
 	}
 	return x
 }
+func Abs64(x int64) int64 {
+	if x < 0 {
+		x = -x
+	}
+	return x
+}
 
-func Gcd(x, y int) int {
+func Gcd(x, y int64) int64 {
 	for y != 0 {
 
 		x, y = y, x%y
 	}
 	return x
+}
+
+// find Least Common Multiple (LCM) via GCD
+
+func Lcm(a, b int64, integers ...int64) int64 {
+	result := a * b / Gcd(a, b)
+
+	for i := 0; i < len(integers); i++ {
+		result = Lcm(result, integers[i])
+	}
+
+	return result
 }
 
 func MakeDigits(n int64) []int64 {
@@ -103,4 +121,13 @@ func Permutations(arr []int) [][]int {
 	}
 	helper(arr, len(arr))
 	return res
+}
+
+func Sign(x int64) int64 {
+	if x < 0 {
+		return -1
+	} else if x > 0 {
+		return 1
+	}
+	return 0
 }
