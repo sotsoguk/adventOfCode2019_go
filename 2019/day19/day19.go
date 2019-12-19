@@ -36,6 +36,7 @@ func part1(code []int64) int64 {
 	)
 	var robot intcode.VM
 	robot.LoadCode(code)
+	robot.Reset()
 	for y := 0; y < rows; y++ {
 		for x := 0; x < cols; x++ {
 			robot.Reset()
@@ -62,6 +63,7 @@ func part2(code []int64) int64 {
 
 	var robot intcode.VM
 	robot.LoadCode(code)
+	robot.Reset()
 	xs = 1000
 	foundSlopes := false
 	for !foundSlopes {
@@ -84,7 +86,7 @@ func part2(code []int64) int64 {
 	xCt := (99*c + 99) / (a - c)
 	yC := int(c * (xCt + 99))
 	xC := int(xCt)
-
+	// fmt.Println(a, c, xC, yC)
 	// margin for int / float errors
 	xs, ys = xC-10, yC-10
 

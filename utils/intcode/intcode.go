@@ -34,6 +34,16 @@ func (vm *VM) Reset() {
 	// vm.enoughInput = false
 
 }
+func (vm *VM) ResetWithoutCode() {
+	vm.InPtr = 0
+	vm.Mode = 0
+	vm.RPtr = 0
+	vm.Input = nil
+	vm.Input = make([]int64, 0)
+	vm.Output = nil
+	vm.Output = make([]int64, 0)
+	vm.Ptr = 0
+}
 func (vm *VM) LoadCode(code []int64) {
 	vm.OrigCode = make([]int64, len(code))
 	copy(vm.OrigCode, code)

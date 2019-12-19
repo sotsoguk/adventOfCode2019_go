@@ -288,15 +288,20 @@ func removeKey(key string, keys []string) []string {
 	}
 	return newKeys
 }
-func collectKeys(from string, haveKeys []string, remainingKeys []string, lut *map[string]map[string]Path, steps int, mem *map[Mem]int) int {
-	if len(remainingKeys) == 0 {
+func collectKeys(from string, haveKeys2 []string, remainingKeys2 []string, lut *map[string]map[string]Path, steps int, mem *map[Mem]int) int {
+	if len(remainingKeys2) == 0 {
+		// fmt.Println("All Done:", steps)
 		return steps
 	}
+	haveKeys := make([]string, len(haveKeys2))
+	copy(haveKeys, haveKeys2)
+	remainingKeys := make([]string, len(remainingKeys2))
+	copy(remainingKeys, remainingKeys2)
 	// create bitmap from havekeys
-	fmt.Println(haveKeys)
+	// fmt.Println(haveKeys)
 	bm := setBitKeys(haveKeys)
 	if val, ok := (*mem)[Mem{bm, from}]; ok {
-		fmt.Println("LookUp:", haveKeys, steps)
+		// fmt.Println("LookUp:", haveKeys, steps)
 		return steps + val
 	}
 	//collect all keys which we can collect
@@ -307,13 +312,15 @@ func collectKeys(from string, haveKeys []string, remainingKeys []string, lut *ma
 			possibleKeys = append(possibleKeys, key)
 		}
 	}
-	fmt.Println("Possible:", steps, possibleKeys)
+	fmt.Println("Possible:", steps, from, remainingKeys, possibleKeys, haveKeys)
 	answer := 1000000
 	for _, possKey := range possibleKeys {
 		remKeys := removeKey(possKey, remainingKeys)
 		havKeys := append(haveKeys, possKey)
 		newSteps := (*lut)[from][possKey].length
 		tmpSteps := collectKeys(possKey, havKeys, remKeys, lut, newSteps, mem)
+		//save state
+		(*mem)[Mem{setBitKeys(havKeys), possKey}] = answer
 		if tmpSteps < answer {
 			answer = tmpSteps
 
@@ -393,7 +400,9 @@ func main() {
 	memory := make(map[Mem]int, 0)
 	fmt.Println(collectKeys("@", []string{}, allkeys, &lut, 0, &memory))
 	elapsed := time.Since(start)
-
+	// a := []int{1, 2, 3, 4, 5}
+	// b := append(a, 6)
+	// fmt.Println(a, b)
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nTime:\t%v\n",
 		header, len(lines), solution1, solution2, elapsed)
 	// fmt.Println(removeKey("A", []string{"B", "C", "A", "D", "E"}))
