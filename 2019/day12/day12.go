@@ -151,10 +151,11 @@ func main() {
 	}
 
 	solution1 = part1(planetInit, 1000)
-	solution2 = part2(planetInit)
+	//solution2 = part2(planetInit)
 	elapsed := time.Since(start)
 
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nTime:\t%v\n",
 		header, len(lines), solution1, solution2, elapsed)
 
 }
+ 

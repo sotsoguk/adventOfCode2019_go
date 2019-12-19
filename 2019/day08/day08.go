@@ -9,7 +9,7 @@ import (
 	"time"
 
 	readAOC "github.com/adventOfCode2019_go/utils"
-	//"github.com/adventOfCode2019_go/utils/mathUtils"
+	//""github.com/adventOfCode2019_go/utils/mathUtils""
 )
 
 const (

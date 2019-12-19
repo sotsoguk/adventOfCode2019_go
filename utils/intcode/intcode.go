@@ -27,7 +27,7 @@ func (vm *VM) Reset() {
 	vm.Output = make([]int64, 0)
 	vm.Ptr = 0
 	vm.Code = nil
-	vm.Code = make([]int64, mathUtils.Max(int64(len(vm.OrigCode)), 2000))
+	vm.Code = make([]int64, mathUtils.Max(int64(len(vm.OrigCode)), 10000))
 	copy(vm.Code, vm.OrigCode)
 	// vm.inputLoaded = false
 	// vm.blockInput = false
@@ -43,6 +43,15 @@ func (vm *VM) LoadCode(code []int64) {
 func (vm *VM) LoadInput(input int64) {
 	vm.Input = append(vm.Input, input)
 	vm.Mode = 0
+}
+
+func (vm *VM) LoadInputs(inputs []int64) {
+	vm.Input = append(vm.Input, inputs...)
+	vm.Mode = 0
+}
+func (vm *VM) ClearOuput() {
+	vm.Output = nil
+	vm.Output = make([]int64, 0)
 }
 func (vm *VM) RunCode() {
 	// reverseMemory := int64(2000)
@@ -94,11 +103,13 @@ func (vm *VM) RunCode() {
 			vm.Code[vm.Code[vm.Ptr+3]+offset3] = p1 * p2
 			vm.Ptr += 4
 		case 3:
+			// fmt.Println("3:before:", vm.InPtr, len(vm.Input))
 			if vm.InPtr >= int64(len(vm.Input)) {
 				running = false
 				vm.Mode = 1
 				break
 			} else {
+				// fmt.Println("3:input:", vm.Input)
 				if m1 == 0 {
 					vm.Code[vm.Code[vm.Ptr+1]+offset3] = vm.Input[vm.InPtr]
 				} else if m1 == 2 {
