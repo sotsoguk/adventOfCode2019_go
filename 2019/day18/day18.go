@@ -293,6 +293,7 @@ func collectKeys(from string, haveKeys2 []string, remainingKeys2 []string, lut *
 		// fmt.Println("All Done:", steps)
 		return steps
 	}
+	// fmt.Print(from, "<")
 	haveKeys := make([]string, len(haveKeys2))
 	copy(haveKeys, haveKeys2)
 	remainingKeys := make([]string, len(remainingKeys2))
@@ -301,7 +302,7 @@ func collectKeys(from string, haveKeys2 []string, remainingKeys2 []string, lut *
 	// fmt.Println(haveKeys)
 	bm := setBitKeys(haveKeys)
 	if val, ok := (*mem)[Mem{bm, from}]; ok {
-		// fmt.Println("LookUp:", haveKeys, steps)
+		fmt.Println("LookUp:", haveKeys, steps)
 		return steps + val
 	}
 	//collect all keys which we can collect
@@ -312,7 +313,7 @@ func collectKeys(from string, haveKeys2 []string, remainingKeys2 []string, lut *
 			possibleKeys = append(possibleKeys, key)
 		}
 	}
-	fmt.Println("Possible:", steps, from, remainingKeys, possibleKeys, haveKeys)
+	// fmt.Println("Possible:", steps, from, remainingKeys, possibleKeys, haveKeys)
 	answer := 1000000
 	for _, possKey := range possibleKeys {
 		remKeys := removeKey(possKey, remainingKeys)
@@ -320,12 +321,13 @@ func collectKeys(from string, haveKeys2 []string, remainingKeys2 []string, lut *
 		newSteps := (*lut)[from][possKey].length
 		tmpSteps := collectKeys(possKey, havKeys, remKeys, lut, newSteps, mem)
 		//save state
-		(*mem)[Mem{setBitKeys(havKeys), possKey}] = answer
+		(*mem)[Mem{setBitKeys(havKeys), possKey}] = answer - newSteps
 		if tmpSteps < answer {
 			answer = tmpSteps
 
 		}
 	}
+	// fmt.Println(">", from)
 	(*mem)[Mem{bm, from}] = answer
 	// fmt.Println(possibleKeys)
 	return steps + answer
@@ -399,6 +401,10 @@ func main() {
 
 	memory := make(map[Mem]int, 0)
 	fmt.Println(collectKeys("@", []string{}, allkeys, &lut, 0, &memory))
+	// a1 := []string{"a", "c", "d"}
+	// a2 := []string{"c", "d", "a"}
+	// fmt.Println(setBitKeys(a1))
+	// fmt.Println(setBitKeys(a2))
 	elapsed := time.Since(start)
 	// a := []int{1, 2, 3, 4, 5}
 	// b := append(a, 6)
