@@ -7,19 +7,39 @@ import (
 	"time"
 
 	readAOC "github.com/adventOfCode2019_go/utils"
+	// . "github.com/lukechampine/uint128"
 )
 
 const n2 int64 = 119315717514047
 const nn2 int64 = 101741582076661
+
+func mul(a int64, b int64, n int64) int64 {
+	if b == 0 {
+		return 0
+
+	}
+	if b == 1 {
+		return a
+	}
+	var result int64
+	result = mul(a, b/2, n)
+	result = (result + result) % n
+	if (b & 1) == 1 {
+		return (result + a) % n
+	}
+	return result
+}
 
 func pow(base int64, exp int64, n int64) int64 {
 	if exp == 0 {
 		return 1
 	}
 	result := pow(base, exp/2, n)
-	result = result * result % n
+	// result = result * result % n
+	result = mul(result, result, n)
 	if (exp & 1) == 1 {
-		return (result * base) % n
+		// return (result * base) % n
+		return mul(result, base, n)
 	}
 	return result
 
@@ -34,6 +54,7 @@ func powMatrix(m Mat, exp int64, n int64) Mat {
 	result = result.multiply(result, n)
 	if (exp & 1) == 1 {
 		return result.multiply(m, n)
+		// return m.multiply(result, n)
 	}
 	return result
 }
@@ -89,10 +110,22 @@ func (m Mat) multiply(m2 Mat, n int64) Mat {
 	// result.d = ((m.c*m2.b+m.d*m2.d)%n + n) % n
 	// return result
 	var result Mat
-	result.a = ((m.a*m2.a%n+m.b*m2.c%n)%n + n) % n
-	result.b = ((m.a*m2.b%n+m.b*m2.d%n)%n + n) % n
-	result.c = ((m.c*m2.a%n+m.d*m2.c%n)%n + n) % n
-	result.d = ((m.c*m2.b%n+m.d*m2.d%n)%n + n) % n
+	// result.a = ((m.a*m2.a%n+m.b*m2.c%n)%n + n) % n
+	// result.b = ((m.a*m2.b%n+m.b*m2.d%n)%n + n) % n
+	// result.c = ((m.c*m2.a%n+m.d*m2.c%n)%n + n) % n
+	// result.d = ((m.c*m2.b%n+m.d*m2.d%n)%n + n) % n
+	a1 := mul(m.a, m2.a, n)
+	a2 := mul(m.b, m2.c, n)
+	b1 := mul(m.a, m2.b, n)
+	b2 := mul(m.b, m2.d, n)
+	c1 := mul(m.c, m2.a, n)
+	c2 := mul(m.d, m2.c, n)
+	d1 := mul(m.c, m2.b, n)
+	d2 := mul(m.d, m2.d, n)
+	result.a = ((a1+a2)%n + n) % n
+	result.b = ((b1+b2)%n + n) % n
+	result.c = ((c1+c2)%n + n) % n
+	result.d = ((d1+d2)%n + n) % n
 	return result
 
 }
@@ -200,5 +233,7 @@ func main() {
 	fmt.Println(n2)
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nTime:\t%v\n",
 		header, len(lines), solution1, solution2, elapsed)
+
+	fmt.Println(mul(129, 38, 1000))
 
 }
