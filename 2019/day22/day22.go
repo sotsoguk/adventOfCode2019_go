@@ -16,13 +16,12 @@ func pow(base int64, exp int64, n int64) int64 {
 	if exp == 0 {
 		return 1
 	}
-	a := pow(base, exp/2, n)
-	a = a * a % n
+	result := pow(base, exp/2, n)
+	result = result * result % n
 	if (exp & 1) == 1 {
-		return (a * base) % n
-	} else {
-		return a
+		return (result * base) % n
 	}
+	return result
 
 }
 
@@ -47,18 +46,18 @@ type Mat struct {
 	a, b, c, d int64
 }
 
-func cutC(c int64) Mat {
+func cutM(m int64) Mat {
 	var result Mat
 	result.a = 1
-	result.b = -c
+	result.b = -m
 	result.d = 1
 	return result
 }
 
-func invCutC(c int64) Mat {
+func invCutM(m int64) Mat {
 	var result Mat
 	result.a = 1
-	result.b = c
+	result.b = m
 	result.d = 1
 	return result
 }
@@ -173,16 +172,16 @@ func main() {
 			nn, _ := strconv.Atoi(toks[1])
 			fmt.Println(nn)
 			// cards = cutNCards(cards, nn)
-			// m = (cutC(int64(nn))).multiply(m, int64(numCards))
-			mi = mi.multiply(invCutC(int64(nn)), int64(numCards))
+			// m = (cutM(mnt64(nn))).multiply(m, int64(numCards))
+			mi = mi.multiply(invCutM(int64(nn)), int64(numCards))
 		} else if toks[1] == "into" {
-			// cards = dealIntoNewStack(cards)
+			// cards = dealIntoNewStack(cardsm
 			// m = (Rev(int64(numCards))).multiply(m, int64(numCards))
 			mi = mi.multiply(Rev(int64(numCards)), int64(numCards))
 		} else if toks[1] == "with" {
 			nn, _ := strconv.Atoi(toks[3])
 			// cards = dealWithN(cards, nn)
-			// m = (inc(int64(nn))).multiply(m, int64(numCards))
+			// m = (inc(int64(nn))).multiplyMmm int64(numCards))
 			mi = mi.multiply(invInc(int64(nn), int64(numCards)), int64(numCards))
 		}
 	}
