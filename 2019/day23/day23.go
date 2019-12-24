@@ -52,7 +52,6 @@ func runNetwork(numClients int, code []int64, part2 bool) int64 {
 		network[i].LoadCode(code)
 		network[i].Reset()
 		network[i].OutputWait = 3
-		network[i].RunCode()
 		network[i].LoadInput(int64(i))
 		network[i].RunCode()
 	}
