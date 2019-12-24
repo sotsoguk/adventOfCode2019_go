@@ -62,14 +62,12 @@ func runNetwork(numClients int, code []int64, part2 bool) int64 {
 	for {
 		// check if network is idle
 		isIdle := func() bool {
-			idle := true
 			for i := range network {
 				if !(q[i].isEmpty()) || network[i].Mode != 1 {
-					idle = false
-					return idle
+					return false
 				}
 			}
-			return idle
+			return true
 		}
 
 		for i := 0; i < numClients; i++ {
