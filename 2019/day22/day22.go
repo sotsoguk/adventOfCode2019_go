@@ -14,6 +14,9 @@ const n2 int64 = 119315717514047
 const nn2 int64 = 101741582076661
 
 func mul(a int64, b int64, n int64) int64 {
+	if b < 0 {
+		return mul(-a, -b, n)
+	}
 	if b == 0 {
 		return 0
 
@@ -53,8 +56,8 @@ func powMatrix(m Mat, exp int64, n int64) Mat {
 	result = powMatrix(m, exp/2, n)
 	result = result.multiply(result, n)
 	if (exp & 1) == 1 {
-		return result.multiply(m, n)
-		// return m.multiply(result, n)
+		// return result.multiply(m, n)
+		return m.multiply(result, n)
 	}
 	return result
 }
@@ -234,6 +237,7 @@ func main() {
 	fmt.Printf("%sLength of Input (lines):\t%v\n\nSolution:\nPart1:\t%v\nPart2:\t%v\nTime:\t%v\n",
 		header, len(lines), solution1, solution2, elapsed)
 
-	fmt.Println(mul(129, 38, 1000))
+	fmt.Println(mul(-19, 3, 100000000))
+	fmt.Println(mul(3, -19, 100000000))
 
 }

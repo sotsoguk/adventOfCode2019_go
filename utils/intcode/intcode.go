@@ -7,14 +7,15 @@ import (
 )
 
 type VM struct {
-	Code     []int64
-	Input    []int64
-	Output   []int64
-	InPtr    int64
-	RPtr     int64
-	Ptr      int64
-	Mode     int64 //1: wairing for input	99: exit
-	OrigCode []int64
+	Code       []int64
+	Input      []int64
+	Output     []int64
+	InPtr      int64
+	RPtr       int64
+	Ptr        int64
+	Mode       int64 //1: wairing for input	99: exit // 2: output of desired len
+	OrigCode   []int64
+	OutputWait int64
 }
 
 func (vm *VM) Reset() {
@@ -32,6 +33,7 @@ func (vm *VM) Reset() {
 	// vm.inputLoaded = false
 	// vm.blockInput = false
 	// vm.enoughInput = false
+	vm.OutputWait = 0
 
 }
 func (vm *VM) ResetWithoutCode() {
@@ -62,6 +64,7 @@ func (vm *VM) LoadInputs(inputs []int64) {
 func (vm *VM) ClearOuput() {
 	vm.Output = nil
 	vm.Output = make([]int64, 0)
+	vm.Mode = 0
 }
 func (vm *VM) RunCode() {
 	// reverseMemory := int64(2000)
@@ -136,6 +139,13 @@ func (vm *VM) RunCode() {
 			}
 			vm.Output = append(vm.Output, p1)
 			vm.Ptr += 2
+			if vm.OutputWait > 0 {
+				if len(vm.Output) == int(vm.OutputWait) {
+					running = false
+					vm.Mode = 3
+					break
+				}
+			}
 		case 5:
 			if p1 != 0 {
 				vm.Ptr = p2
